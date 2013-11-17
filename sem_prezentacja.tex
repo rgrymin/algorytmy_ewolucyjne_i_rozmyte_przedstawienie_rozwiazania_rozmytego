@@ -1,0 +1,171 @@
+\input{preamble}
+
+
+\begin{document}
+% \usebackgroundtemplate{\includegraphics[width=\paperwidth]{img/bg.jpg}}
+\frame{\titlepage}
+
+% Przebieg prezentacji
+\begin{frame}
+  \frametitle{Przebieg prezentacji}
+  \tableofcontents
+\end{frame}
+
+% The following causes the table of contents to be shown 
+% at the beginning of every subsection. Delete this, if you do not want it.
+\AtBeginSubsection[]{
+  \frame<beamer>{
+    \frametitle{Przebieg prezentacji}
+    \tableofcontents[currentsection,currentsubsection]
+  }
+}
+
+
+%\section{Klasa regulatorów rozmytych SIRM}
+%\subsection{Wprowadzenie}
+%\begin{frame}[t, allowframebreaks]{SIRM --- single input rule module}
+%	\footnotesize
+%	\begin{description}
+%		\item[SIRM] --- dynamicznie połączony model regulatora rozmytego o $n$ wejściach i $1$ wyjściu
+%	\end{description}
+	
+%	Dla zwyczajnego regulatora rozmytego, wraz z liniowym wzrostem wejść, eksponencjalnie
+%	rośnie złożoność reguł co prowadzi do problemów związanych z formułowaniem reguł.
+	
+%	\framebreak
+	
+%	W celu rozwiązania tego problemu dynamiczny interfejs SIRM konfiguruje osobno SIRM
+%	dla każdego wejścia w sposób następujący:
+%	\begin{equation}
+%		SIRM-i: \left\lbrace R_i^j: x_i = A_i^j \Rightarrow f_i=C_i^j  \right\rbrace_{j=1}^{m_i}
+%\end{equation}	 
+
+%	\begin{description}
+%		\item[$SIRM-i$] --- $SIRM$ dla $i$-tego wejścia
+%		\item[$R_i^j$]  --- $j$-ta reguła dla $SIRM-i$
+%		\item[$x_i$]    --- $i$-ta wartość wejścia
+%		\item[$f_i$]    --- $i$-ta zmienna decyzyjna wyjścia
+%		\item[$A_i^j$]  --- $j$-ta funkcja przynależności dla $i$-tego wejścia
+%		\item[$C_i^j$]  --- $j$-ta funkcja przynależności dla $i$-tej zmiennej decyzyjnej
+		 
+%	\end{description}
+
+%end{frame}
+	
+	\section{Warianty sterowników rozmytych na bazie PID}
+\subsection{Sterownik rozmyty typu P}
+\begin{frame}
+	\centering 
+	\begin{equation}
+		U = K_p \cdot e
+	\end{equation}
+	Reprezentacja symboliczna reguły dla sterownika rozmytego typu P \bigskip
+	
+
+	\textbf{JEŻELI e jest $\langle WL \rangle$ TO $u$ jest $\langle WL \rangle$}
+\end{frame}
+
+\subsection{Sterownik rozmyty typu PD}
+\begin{frame}
+	\centering
+	
+	\begin{equation}
+		u=K_P \cdot e + K_D \cdot de
+	\end{equation}
+	
+	Reprezentacja symboliczna reguły dla sterownika rozmytego typu PD \bigskip
+	
+	\textbf{JEŻELI e jest $\langle WL \rangle$ I $\Delta e$ jest $\langle WL \rangle$,  TO $u$ jest $\langle WL \rangle$}
+\end{frame}
+
+\subsection{Sterownik rozmyty typu PI}
+\begin{frame}
+	\centering
+
+	\begin{equation}
+		u=K_p \cdot e +K_i \cdot \int\!\! e\, dt
+	\end{equation}
+	
+	\begin{equation}
+		du = K_p \cdot de + K_i \cdot e
+	\end{equation}
+	
+	Reprezentacja symboliczna reguły dla sterownika rozmytego typu PI \bigskip
+	
+	\textbf{JEŻELI e jest $\langle WL \rangle$ I $\Delta e$ jest $\langle WL \rangle$,  TO $\Delta u$ jest $\langle WL \rangle$}
+\end{frame}
+	
+	
+	\subsection{Sterownik rozmyty typu PID}
+	\begin{frame}
+		\centering
+		\begin{equation}
+			u=K_p \cdot e + K_d \cdot de + K_i \int\! e\,dt
+		\end{equation}
+		
+		Reprezentacja symboliczna reguły dla sterownika rozmytego typu PID \bigskip
+		
+			\textbf{JEŻELI e jest $\langle WL \rangle$ I $\Delta e$ jest $\langle WL \rangle$ i $\Sigma e$ jest $\langle WL \rangle$,  TO $u$ jest $\langle WL \rangle$}
+	\end{frame}
+	
+	\section{Projektowanie SR}
+		\subsection{Konstruowanie bazy reguł}
+		\begin{frame}
+		\begin{itemize}
+			\item wiedza intuicyjna i doświadczenie
+			\item standardowa baza reguł \emph{Mac Vicara-Whelena}
+		\end{itemize}
+		\end{frame}
+		
+		\begin{frame}{Baza reguł Mac Vicara-Whelena}
+			Dla każdego zbioru rozmytego wprowadzono siedem etykiet
+			lingwistycznych: duży dodatni $PL$ (\emph{positive large}),
+			średni dodatni $PM$ (\emph{positive medium}), mały dodatni $PS$ (\emph{positive small}),
+			zerowy $ZO$ ($zero$), mały ujemny $NS$ (\emph{negative small}), średni ujemny $NM$ 
+			(\emph{negative medium}) i duży ujemny $NL$.
+		\end{frame}
+		
+		\begin{frame}{Bazy reguł \emph{Mac Vicara-Whelena} --- SR typu PD}
+			\begin{figure}
+				\includegraphics[width=0.6\textwidth]{img/pd}
+			\end{figure}
+			W zależności od wartości $e$ i $\Delta e$ (czy duże, czy małe itp.) stosuje się różne
+			bazy reguł \emph{Mac Vicara-Whelena} --- można precyzyjniej sterować prędkością
+			dochodzenia do wartości zadanej.
+		\end{frame}
+		
+		\subsection{Dokładność sterowania}
+			\begin{frame}
+			\begin{itemize}
+				\item 				,,Ziarnistość'' regulatora zależy od tego ile
+				wartości przyjmują zmienne lingwistyczne.
+				\item jeśli wymagane jest lepsze rozwiązanie w pobliżu wartości
+				zadanej, można rozważyć większą ilość zmiennych lingwistycznych np.
+				PZO (\emph{positive zero}) 
+			\end{itemize}
+			\end{frame}
+			
+			\subsection{Sterowanie nieliniowe}
+			\begin{frame}
+				\begin{itemize}
+					\item jeśli układy sterowania są liniowe, regulator można dostroić tylko
+					w danym punkcie pracy 
+					
+					\item zmiana punktu pracy --- strojenie
+					
+					\item przestrajanie automatyczne --- regulatory adaptacyjne ---
+					parametry zmieniają się podczas działania w celu poprawy
+					działania regulatora
+				\end{itemize}
+			\end{frame}
+			
+			\subsection{Strojenie funkcji przynależności}
+				\begin{frame}
+					\begin{itemize}
+						\item Zmiana czynnika skalującego --- \emph{wartość wejściowa}$\cdot$
+						\emph{wartość wyjściowa}
+						
+						\item Zmiana kształtów zbiorów rozmytych
+					\end{itemize}
+				\end{frame}
+\end{document}
