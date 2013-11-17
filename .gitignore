@@ -22,7 +22,9 @@
 *.nav
 *.nlo
 *.out
+*.pdf
 *.pdfsync
+*.ppk
 *.ps
 *.snm
 *.synctex.gz
